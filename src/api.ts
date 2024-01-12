@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { config } from 'dotenv';
 
+import { Document, LocationType, CategoryType, GetParameters, GetResponse, PostRequest, PostResponse} from './types'
+
 // Load environment variables
 config();
 const READWISE_TOKEN: string = process.env.READWISE_TOKEN || '';
@@ -9,72 +11,8 @@ if (!READWISE_TOKEN) {
 }
 const URL_BASE: string = "https://readwise.io/api/v3";
 
-interface Tag {
-    /** A tag used to organize documents in Readwise Reader. */
-    name: string;
-    type: string;
-    created: number;
-  }
-  
-interface Document {
-    /** A single document saved in the Readwise Reader. */
-    id: string;
-    url: string;
-    title: string;
-    author: string;
-    source?: string;
-    category: string;
-    location: string;
-    tags?: { [key: string]: Tag };
-    siteName?: string;
-    wordCount?: number;
-    createdAt: string;
-    updatedAt: string;
-    publishedDate?: string;
-    summary?: string;
-    imageUrl?: string;
-    content: any;
-    sourceUrl: string;
-}
-  
-interface GetResponse {
-    /** A response from the Readwise API for GET requests. */
-    count: number;
-    nextPageCursor?: string;
-    results: Document[];
-}
-  
-interface PostRequest {
-    /** A POST request for the Readwise API to save documents to Reader. */
-    url: string;
-    html?: string;
-    shouldCleanHtml?: boolean;
-    title?: string;
-    author?: string;
-    summary?: string;
-    publishedDate?: string;
-    imageUrl?: string;
-    location?: string;
-    savedUsing?: string;
-    tags?: string[];
-}
-  
-interface PostResponse {
-    /** A response from the Readwise API for POST requests. */
-    id: string;
-    url: string;
-}
-  
-interface GetDocumentParams {
-    /** Parameters for GET requests */
-    id?: string;
-    location?: string;
-    category?: string;
-    pageCursor?: string;
-}
-
 // Function to handle GET request
-async function makeGetRequest(params: GetDocumentParams): Promise<GetResponse> {
+async function makeGetRequest(params: GetParameters): Promise<GetResponse> {
   try {
     const response = await axios.get<GetResponse>(`${URL_BASE}/list/`, {
       headers: { Authorization: `Token ${READWISE_TOKEN}` },
@@ -112,14 +50,16 @@ async function makePostRequest(payload: PostRequest): Promise<[boolean, PostResp
   }
 }
 
-export async function getDocuments(location: string, category?: string): Promise<Document[]> {
-    if (!['new', 'later', 'shortlist', 'archive', 'feed'].includes(location)) {
-        throw new Error(`Invalid location: ${location}`);
+export async function getDocuments(location?: LocationType, category?: CategoryType, updatedAfter?: string): Promise<Document[]> {
+    let params: GetParameters = {};
+    if (location) {
+        params.location = location;
     }
-    
-    let params: any = { location: location };
     if (category) {
         params.category = category;
+    }
+    if (updatedAfter) {
+        params.updatedAfter = updatedAfter;
     }
 
     let results: Document[] = [];

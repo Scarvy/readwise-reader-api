@@ -3,7 +3,7 @@ const { getDocuments, getDocumentById, saveDocument } = require('./dist/api');
 async function testApi() {
   try {
     console.log('Getting documents...');
-    const docs = await getDocuments('new');
+    const docs = await getDocuments('new', 'article', '2024-01-01T00:00:00Z');
     console.log(docs);
 
     console.log('Getting a specific document...');

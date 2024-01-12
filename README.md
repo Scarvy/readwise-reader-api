@@ -1,6 +1,6 @@
-# An unoffical JavaScript/TypeScript Client for the Readwise Reader API Client
+# An Unofficial JavaScript/TypeScript Client for the Readwise Reader API
 
-An unofficial client for interacting with the Readwise Reader API, suitable for both JavaScript and TypeScript applications.
+This client provides a convenient way to interact with the Readwise Reader API, suitable for both JavaScript and TypeScript applications.
 
 ## Installation
 
@@ -16,7 +16,7 @@ npm install readwise-reader-api
 const { getDocuments, getDocumentById, saveDocument } = require('readwise-reader-api');
 
 // Fetch Documents
-getDocuments('new')
+getDocuments('new', 'article', '2021-01-01T00:00:00Z')
   .then(documents => console.log(documents))
   .catch(error => console.error('Error:', error));
 
@@ -34,12 +34,13 @@ saveDocument('http://example.com')
 ### TypeScript
 
 ```typescript
-import { getDocuments, getDocumentById, saveDocument, Document, PostResponse } from 'readwise-reader-api';
+import { getDocuments, getDocumentById, saveDocument } from 'readwise-reader-api';
+import { Document, PostResponse } from 'readwise-reader-api/types';
 
 // Fetch Documents
 async function fetchDocuments(): Promise<void> {
     try {
-        const documents: Document[] = await getDocuments('new');
+        const documents: Document[] = await getDocuments('new', 'article', '2021-01-01T00:00:00Z');
         console.log(documents);
     } catch (error) {
         console.error('Error:', error);
@@ -69,13 +70,13 @@ async function saveNewDocument(): Promise<void> {
 
 ## API Reference
 
-- `getDocuments(location: string, category?: string): Promise<Document[]>`
+- `getDocuments(location?: string, category?: string, updatedAfter?: string): Promise<Document[]>`
 - `getDocumentById(id: string): Promise<Document | null>`
 - `saveDocument(url: string): Promise<[boolean, PostResponse]>`
 
 ## Contributing
 
-Contributions are welcome. Please open an issue or submit a pull request.
+Contributions are welcome! Please open an issue or submit a pull request.
 
 ## License
 
