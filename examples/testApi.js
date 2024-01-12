@@ -1,4 +1,4 @@
-const { getDocuments, getDocumentById, saveDocument } = require('./dist/api');
+const { getDocuments, getDocumentById, saveDocument } = require('../dist/api');
 
 async function testApi() {
   try {

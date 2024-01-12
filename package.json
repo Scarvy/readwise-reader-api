@@ -1,15 +1,21 @@
 {
   "name": "readwise-reader-api",
   "version": "0.1.0",
-  "description": "An unoffical JavaScript client for the Readwise Reader API",
+  "description": "An unofficial JavaScript client for the Readwise Reader API",
   "main": "dist/api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
-    "testApi": "npm run build && node testApi.js"
+    "build": "npx tsc"
   },
   "author": "Scott Carvalho",
   "license": "ISC",
+  "keywords": [
+    "readwise",
+    "readwise-reader",
+    "api-client",
+    "typescript",
+    "javascript"
+  ],
   "devDependencies": {
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
@@ -17,5 +23,10 @@
   "dependencies": {
     "axios": "^1.6.5",
     "dotenv": "^16.3.1"
-  }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ]
 }
