@@ -1,4 +1,4 @@
-# An Unofficial JavaScript/TypeScript Client for the Readwise Reader API
+# An unofficial JavaScript/TypeScript client for the Readwise Reader API
 
 This client provides a convenient way to interact with the Readwise Reader API, suitable for both JavaScript and TypeScript applications.
 
@@ -9,6 +9,15 @@ npm install readwise-reader-api
 ```
 
 ## Usage
+
+### Prerequisites
+
+1. Obtain a Readwise API token [here](https://readwise.io/access_token)
+2. Store in .env or in an environment variable.
+
+```bash
+export READWISE_TOKEN=<api_token>
+```
 
 ### JavaScript
 
