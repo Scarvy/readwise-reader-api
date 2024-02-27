@@ -99,7 +99,7 @@ A reference for all methods and types available in Readwise and Reader Client li
 
 ### Readwise
 
-**EXPORT Highlights**: Export all **Readwise** highlights after a specific date.
+**EXPORT Highlights**: Export all highlights after a specific date.
 
 ```typescript
 async function exportHighlights() {
@@ -115,7 +115,7 @@ async function exportHighlights() {
 }
 ```
 
-**LIST Highlights**: List highlights after a specific date.
+**LIST Highlights**: List all highlights after a specific date.
 
 ```typescript
 async function listHighlights() {
@@ -130,7 +130,7 @@ async function listHighlights() {
 }
 ```
 
-**Book Details:**
+**DETAILS Book:** Get details for a book (eg Article, Blog, Tweet, Book, etc.).
 
 ```typescript
 async function getBookDetails() {
@@ -145,7 +145,7 @@ async function getBookDetails() {
 }
 ```
 
-**Book Highlights:**
+**LIST Highlights (in Book):** Get all highlights for a single book (eg Article, Blog, Tweet, Book, etc.).
 
 ```typescript
 async function getBookHighlights() {
@@ -160,7 +160,7 @@ async function getBookHighlights() {
 }
 ```
 
-**EXPORT Book highlights:**
+**EXPORT Highlights (in Book):** Export all highlights for a single book (eg Article, Blog, Tweet, Book, etc.).
 
 ```typescript
 async function exportBookHighlights(): Promise<void> {
@@ -174,6 +174,8 @@ async function exportBookHighlights(): Promise<void> {
 }
 ```
 
+**Daily Review:** Returns your daily review highlights.
+
 ```typescript
 async function getDailyReview() {
   /** Get Daily Review */
@@ -185,6 +187,10 @@ async function getDailyReview() {
   }
 }
 ```
+
+### Advanced Usage
+
+Get all highlights for a particular category (eg "Tweets")
 
 ```typescript
 async function getHighlightsFromTweets() {
@@ -203,11 +209,11 @@ async function getHighlightsFromTweets() {
 }
 ```
 
-### Reader
+### Readwise Reader
 
 Provides the ability to create, list, and retrieve documents.
 
-**CREATE document: Create a new document in Reader.**
+**CREATE Document: Create a document.**
 
 ```typescript
 const result = await readwise.document.create({
@@ -228,14 +234,7 @@ The response will show if document already exists or not.
 }
 ```
 
-**LIST documents:** List documents for a specific location, category and/or date.
-
-```javascript
-readwise.document
-  .list("new", "article", "2021-01-01T00:00:00Z")
-  .then((documents) => console.log(documents))
-  .catch((error) => console.error("Error:", error));
-```
+**LIST Documents:** List documents for a specific *location*, *category* and/or *date*.
 
 ```typescript
 async function listReaderDocuments() {
@@ -253,14 +252,7 @@ async function listReaderDocuments() {
 }
 ```
 
-**GET document by id:** Retrieve a single document.
-
-```javascript
-readwise.document
-  .id("document_id")
-  .then((document) => console.log(document))
-  .catch((error) => console.error("Error:", error));
-```
+**GET Document by ID:** Retrieve a single document.
 
 ```typescript
 async function getReaderDocument() {
@@ -274,13 +266,20 @@ async function getReaderDocument() {
 }
 ```
 
-### Available Readwise Types
+### Available Readwise and Reader Types
 
 ```typescript
-import {
+export {
+  /** Readwise */
+  ReadwiseBook,
   ReadwiseBookHighlights,
   ReadwiseHighlight,
-  ReadwiseBook,
   ReadwiseLibraryCategoryType,
-} from "readwise-reader-api/types";
+  /** Reader */
+  ReaderDocument,
+  ReaderLocationType,
+  ReaderCategoryType,
+} from "./api-endpoints";
 ```
+
+Check documentation for more details.
