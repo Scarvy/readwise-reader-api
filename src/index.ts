@@ -1,3 +1,14 @@
-export { getDocuments, getDocumentById, saveDocument } from './api';
+export { default as Readwise } from "./Readwise";
+export { default as Reader } from "./Reader";
 
-export { Document, LocationType, CategoryType } from './types';
+export {
+  /** Readwise */
+  ReadwiseBook,
+  ReadwiseBookHighlights,
+  ReadwiseHighlight,
+  ReadwiseLibraryCategoryType,
+  /** Reader */
+  ReaderDocument,
+  ReaderLocationType,
+  ReaderCategoryType,
+} from "./api-endpoints";
