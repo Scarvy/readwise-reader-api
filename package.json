@@ -1,12 +1,18 @@
 {
   "name": "readwise-reader-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An unofficial JavaScript client for the Readwise Reader API",
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc"
+    "prepare": "npm run build",
+    "prebuild": "npm run clean",
+    "clean": "rm -rf ./dist",
+    "build": "tsc",
+    "prettier": "prettier --write .",
+    "lint": "prettier --check . && eslint . --ext .ts",
+    "testClient": "npm run build && ts-node examples/testReaderClient.ts"
   },
   "author": "Scott Carvalho",
   "license": "ISC",
@@ -18,7 +24,9 @@
     "javascript"
   ],
   "devDependencies": {
+    "prettier": "3.2.4",
     "ts-node": "^10.9.2",
+    "typedoc": "^0.25.7",
     "typescript": "^5.3.3"
   },
   "dependencies": {
