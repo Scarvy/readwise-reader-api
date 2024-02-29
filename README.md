@@ -221,7 +221,7 @@ const reader = new Reader({
 });
 ```
 
-**CREATE Document: Create a document.**
+**CREATE Document:** Create a document.
 
 ```typescript
 const result = await reader.document.create({
