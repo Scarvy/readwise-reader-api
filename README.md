@@ -19,12 +19,12 @@ npm install readwise-reader-api
 export READWISE_TOKEN=<api_token>
 ```
 
-Import and initialize a client using an access token.
+Import and initialize a client (`Readwise` or `Reader`) using an access token.
 
 ```javascript
-const { Client } = require("readwise-reader-api");
+const { Readwise } = require("readwise-reader-api");
 
-const readwise = new Client({
+const readwise = new Readwise({
   auth: process.env.READWISE_TOKEN,
 });
 ```
@@ -130,6 +130,20 @@ async function listHighlights() {
 }
 ```
 
+**DAILY REVIEW:** Returns your daily review highlights.
+
+```typescript
+async function getDailyReview() {
+  /** Get Daily Review */
+  try {
+    const review = await readwise.review.daily();
+    console.log(review);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+```
+
 **DETAILS Book:** Get details for a book (eg Article, Blog, Tweet, Book, etc.).
 
 ```typescript
@@ -174,20 +188,6 @@ async function exportBookHighlights(): Promise<void> {
 }
 ```
 
-**Daily Review:** Returns your daily review highlights.
-
-```typescript
-async function getDailyReview() {
-  /** Get Daily Review */
-  try {
-    const review = await readwise.review.daily();
-    console.log(review);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-```
-
 ### Advanced Usage
 
 Get all highlights for a particular category (eg "Tweets")
@@ -213,10 +213,18 @@ async function getHighlightsFromTweets() {
 
 Provides the ability to create, list, and retrieve documents.
 
+```typescript
+import { Reader } from "readwise-reader-api";
+
+const reader = new Reader({
+  auth: process.env.READWISE_TOKEN,
+});
+```
+
 **CREATE Document: Create a document.**
 
 ```typescript
-const result = await readwise.document.create({
+const result = await reader.document.create({
   url: url,
   title: "New Title",
 });
@@ -240,7 +248,7 @@ The response will show if document already exists or not.
 async function listReaderDocuments() {
   try {
     console.log("Getting documents...");
-    const docs = await readwise.document.list(
+    const docs = await reader.document.list(
       "new",
       "article",
       "2024-01-01T00:00:00Z",
@@ -258,7 +266,7 @@ async function listReaderDocuments() {
 async function getReaderDocument() {
   try {
     console.log("Getting a specific document...");
-    const doc = await readwise.document.id("01hkwssvj7g207daxvk5k1tc4d");
+    const doc = await reader.document.id("01hkwssvj7g207daxvk5k1tc4d");
     console.log(doc);
   } catch (error) {
     console.error("Error:", error);
