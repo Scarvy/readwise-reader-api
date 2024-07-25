@@ -41,7 +41,7 @@ export interface ReaderDocument {
   source?: string;
   category: string;
   location: string;
-  tags?: { [key: string]: ReaderDocumentTag };
+  tags?: Record<string, ReaderDocumentTag>;
   siteName?: string;
   wordCount?: number;
   createdAt: string;
@@ -49,7 +49,7 @@ export interface ReaderDocument {
   publishedDate?: string;
   summary?: string;
   imageUrl?: string;
-  content: any;
+  content: string;
   sourceUrl: string;
 }
 
@@ -205,7 +205,7 @@ export interface ReadwiseBookHighlights {
   cover_image_url: string;
   unique_url: string;
   summary: string;
-  book_tags: string[];
+  book_tags: Tag[];
   category: string;
   document_note: string;
   readwise_url: string;
