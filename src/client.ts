@@ -6,7 +6,9 @@ export interface ClientOptions {
 export interface RequestParameters {
   path: string;
   method: Method;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
 }
 

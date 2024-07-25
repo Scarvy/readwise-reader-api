@@ -171,9 +171,9 @@ export const exportHighlights = {
 } as const;
 
 export interface ExportHighlightParameters {
-  updatedAfter?: string; // Formatted as ISO 8601
-  ids?: number; // Comma-separated list
-  pageCursor?: string;
+  updatedAfter?: string | null; // Formatted as ISO 8601
+  ids?: number[] | number | string | null; // Comma-separated list of book IDs
+  pageCursor?: string | null;
 }
 
 export interface ExportHighlight {
@@ -190,7 +190,7 @@ export interface ExportHighlight {
   end_location: number | null;
   url: string | null;
   book_id: number;
-  tags: string[];
+  tags: Tag[];
   is_favorite: boolean;
   is_discard: boolean;
   readwise_url: string;
@@ -204,6 +204,7 @@ export interface ReadwiseBookHighlights {
   source: string;
   cover_image_url: string;
   unique_url: string;
+  summary: string;
   book_tags: string[];
   category: string;
   document_note: string;
@@ -294,7 +295,7 @@ interface ReadwiseReviewHighlight {
   api_source: string | null;
 }
 
-export interface GetDailyReviewRespone {
+export interface GetDailyReviewResponse {
   review_id: number;
   review_url: string;
   review_completed: boolean;

@@ -21,8 +21,8 @@ export READWISE_TOKEN=<api_token>
 
 Import and initialize a client (`Readwise` or `Reader`) using an access token.
 
-```javascript
-const { Readwise } = require("readwise-reader-api");
+```typescript
+import { Readwise } from "readwise-reader-api";
 
 const readwise = new Readwise({
   auth: process.env.READWISE_TOKEN,
@@ -214,7 +214,7 @@ async function getHighlightsFromTweets() {
 Provides the ability to create, list, and retrieve documents.
 
 ```typescript
-import { Reader } from "readwise-reader-api";
+import { Reader } from 'readwise-reader-api
 
 const reader = new Reader({
   auth: process.env.READWISE_TOKEN,
@@ -242,7 +242,7 @@ The response will show if document already exists or not.
 }
 ```
 
-**LIST Documents:** List documents for a specific *location*, *category* and/or *date*.
+**LIST Documents:** List documents for a specific _location_, _category_ and/or _date_.
 
 ```typescript
 async function listReaderDocuments() {
@@ -289,5 +289,3 @@ export {
   ReaderCategoryType,
 } from "./api-endpoints";
 ```
-
-Check documentation for more details.

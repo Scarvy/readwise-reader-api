@@ -9,7 +9,7 @@ import {
   exportHighlights,
   CreateHighlightParameters,
   CreateHighlightsResponse,
-  GetDailyReviewRespone,
+  GetDailyReviewResponse,
   ReadwiseBook,
   listDailyReview,
   listHighlights,
@@ -151,6 +151,12 @@ export default class Readwise {
       let results: ReadwiseBookHighlights[] = [];
       let response: ExportHighlightsResponse;
 
+      // if the book_ids are provided, turn the numbers into a comma-separated string
+      if (args.ids && Array.isArray(args.ids)) {
+        // turn the array of numbers into a comma-separated string
+        args.ids = args.ids.join(",");
+      }
+
       do {
         response = await this.request<ExportHighlightsResponse>({
           path: exportHighlights.path,
@@ -203,7 +209,7 @@ export default class Readwise {
      * @param book_id - The unique identifier of the book.
      * @returns A promise resolving with the details of the ReadwiseBook.
      */
-    details: (book_id: string): Promise<ReadwiseBook> => {
+    details: (book_id: number): Promise<ReadwiseBook> => {
       return this.request({
         path: detailsBooks.path + `${book_id}/`,
         method: detailsBooks.method,
@@ -219,8 +225,8 @@ export default class Readwise {
      * Lists daily review highlights from Readwise.
      * @returns A promise resolving with the response from the daily review endpoint.
      */
-    daily: (): Promise<GetDailyReviewRespone> => {
-      return this.request<GetDailyReviewRespone>({
+    daily: (): Promise<GetDailyReviewResponse> => {
+      return this.request<GetDailyReviewResponse>({
         path: listDailyReview.path,
         method: listDailyReview.method,
       });
