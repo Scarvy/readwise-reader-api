@@ -205,14 +205,8 @@ const runAppleScript = async (script: string) => {
   });
 };
 
-// 7 days ago
+// highlights updated in the 7 days
 const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-
-// last month
-// const lastMonth = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-
-// yesterday
-// const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
 interface ExportHighlightParameters {
   updatedAfter?: string; // Formatted as ISO 8601
