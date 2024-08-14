@@ -45,7 +45,7 @@ function generateHighlightTemplate(
     const urlMatch = highlight.match(/!\[\]\((.*?)\)/);
     // take the highlight string and turn it into a link
     highlight = `<a href=\\"${urlMatch[1]}\\">${urlMatch[1]}</a>`;
-    
+
     // Correctly escape the file path and build the HTML tag.
     const quotedAttachmentPath = attachmentPath.replace(/"/g, '\\"');
     highlight += `<br><img src=\\"file://${quotedAttachmentPath}\\">`;
@@ -53,7 +53,7 @@ function generateHighlightTemplate(
   }
 
   // Ensure the entire string is escaped for AppleScript.
-  return `${highlight} (Location <a href=\\"${url}\\">${location}</a>)<br><br><b>Note</b>: ${note}<br><b>Tags</b>: ${tags}<br>`;
+  return `${highlight}\n(Location <a href=\\"${url}\\">${location}</a>)<br><br><b>Note</b>: ${note}<br><b>Tags</b>: ${tags}<br>`;
 }
 
 const exportHighlights = async (params: ExportHighlightParameters) => {
@@ -245,14 +245,14 @@ const runAppleScript = async (script: string) => {
 };
 
 // highlights updated in the 7 days
-// const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
 interface ExportHighlightParameters {
   updatedAfter?: string; // Formatted as ISO 8601
   ids?: number[] | number | string; // Comma-separated list of book IDs
 }
 
-// const params: ExportHighlightParameters = { updatedAfter: last7Days }
-const params: ExportHighlightParameters = { ids: [43077800] }
+const params: ExportHighlightParameters = { updatedAfter: last7Days }
+// const params: ExportHighlightParameters = { ids: [43077800] }
 
 syncHighlights(params);
