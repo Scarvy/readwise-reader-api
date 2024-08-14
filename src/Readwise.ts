@@ -49,7 +49,7 @@ export default class Readwise {
    * @returns A promise that resolves with the response body.
    * @template ResponseBody - The expected type of the response body.
    */
-  public async request<ResponseBody>({
+  private async request<ResponseBody>({
     path,
     method,
     query,
@@ -67,14 +67,14 @@ export default class Readwise {
 
     try {
       const response = await axios({
-        method: method.toLocaleLowerCase(),
+        method: method.toLowerCase(),
         url: urlString,
         headers: headers,
         params: query,
         data: body,
       });
       return response.data;
-    } catch (error: any) {
+    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       if (error.response && error.response.status === 429) {
         // Respect rate limiting
         const waitTime = parseInt(error.response.headers["Retry-After"]);
@@ -146,15 +146,21 @@ export default class Readwise {
      * @returns A promise resolving with an array of ReadwiseBookHighlights objects.
      */
     export: async (
-      args: ExportHighlightParameters,
+      args?: ExportHighlightParameters,
     ): Promise<ReadwiseBookHighlights[]> => {
+
       let results: ReadwiseBookHighlights[] = [];
       let response: ExportHighlightsResponse;
 
-      // if the book_ids are provided, turn the numbers into a comma-separated string
-      if (args.ids && Array.isArray(args.ids)) {
-        // turn the array of numbers into a comma-separated string
-        args.ids = args.ids.join(",");
+      if (args) {
+        // if the book_ids are provided, turn the numbers into a comma-separated string
+        if (args.ids && Array.isArray(args.ids)) {
+          // turn the array of numbers into a comma-separated string
+          args.ids = args.ids.join(",");
+        }
+      } else {
+        // create an empty ExportHighlightParameters object
+        args = {};
       }
 
       do {

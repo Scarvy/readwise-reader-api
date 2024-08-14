@@ -171,12 +171,12 @@ export const exportHighlights = {
 } as const;
 
 export interface ExportHighlightParameters {
-  updatedAfter?: string | null; // Formatted as ISO 8601
-  ids?: number[] | number | string | null; // Comma-separated list of book IDs
-  pageCursor?: string | null;
+  updatedAfter?: string; // Formatted as ISO 8601
+  ids?: number[] | number | string; // Comma-separated list of book IDs
+  pageCursor?: string
 }
 
-export interface ExportHighlight {
+export interface ReadwiseHighlight {
   id: number;
   text: string;
   location: number;
@@ -191,9 +191,9 @@ export interface ExportHighlight {
   url: string | null;
   book_id: number;
   tags: Tag[];
-  is_favorite: boolean;
-  is_discard: boolean;
-  readwise_url: string;
+  is_favorite?: boolean;
+  is_discard?: boolean;
+  readwise_url?: string;
 }
 
 export interface ReadwiseBookHighlights {
@@ -211,7 +211,7 @@ export interface ReadwiseBookHighlights {
   readwise_url: string;
   source_url: string;
   asin: string | null;
-  highlights: ExportHighlight[];
+  highlights: ReadwiseHighlight[];
 }
 
 export interface ExportHighlightsResponse {
@@ -249,19 +249,6 @@ export interface ListHighlightsParameters {
 interface Tag {
   id: number;
   name: string;
-}
-export interface ReadwiseHighlight {
-  id: number;
-  text: string;
-  note: string | null;
-  location: number;
-  location_type: string;
-  highlighted_at: string | null;
-  url: string | null;
-  color: string;
-  updated: string;
-  book_id: number;
-  tags: Tag[];
 }
 export interface ListHighlightsResponse {
   count: number;
