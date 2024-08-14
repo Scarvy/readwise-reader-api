@@ -37,7 +37,7 @@ export default class Reader {
     method = "get",
     query,
     body,
-  }: RequestParameters): Promise<any> {
+  }: RequestParameters): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
     const urlString = `${this.#prefixUrl}${path}`;
     const headers: Record<string, string> = {
       Authorization: `Token ${this.#auth}`,
@@ -53,7 +53,7 @@ export default class Reader {
         data: body,
       });
       return response;
-    } catch (error: any) {
+    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       if (error.response && error.response.status === 429) {
         const waitTime = parseInt(error.response.headers["Retry-After"]);
         await new Promise((resolve) => setTimeout(resolve, waitTime * 1000));
@@ -142,7 +142,7 @@ export default class Reader {
       category?: string,
       updatedAfter?: string,
     ): Promise<ReaderDocument[]> => {
-      let params: ListReaderDocumentParameters = {};
+      const params: ListReaderDocumentParameters = {};
       if (location) params.location = location;
       if (category) params.category = category;
       if (updatedAfter) params.updatedAfter = updatedAfter;
