@@ -3,9 +3,25 @@ import {
   ReadwiseBookHighlights,
   ReadwiseHighlight,
 } from "readwise-reader-api";
+import axios from "axios";
 import applescript from "applescript";
+import fs from "fs";
+import path from "path";
 
 const readwise = new Readwise({ auth: process.env.READWISE_TOKEN });
+
+async function downloadContent(url: string) {
+  const response = await axios.get(url, { responseType: "arraybuffer" });
+  const tempDir = path.join(process.cwd(), "temp");
+  if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir);
+  }
+
+  const fileName = path.basename(url);
+  const filePath = path.join(tempDir, fileName);
+  fs.writeFileSync(filePath, response.data);
+  return filePath;
+}
 
 function generateMetaDataTemplate(
   author: string,
@@ -23,8 +39,21 @@ function generateHighlightTemplate(
   note: string,
   tags: string,
   url: string,
+  attachmentPath?: string,
 ) {
-  return `${highlight} (Location <a href=\\"${url}\\">${location}</a>)" & "<br><br>" & "<b>Note</b>: ${note}" & "<br>" & "<b>Tags</b>: ${tags}" & "<br>`;
+  if (attachmentPath) {
+    const urlMatch = highlight.match(/!\[\]\((.*?)\)/);
+    // take the highlight string and turn it into a link
+    highlight = `<a href=\\"${urlMatch[1]}\\">${urlMatch[1]}</a>`;
+    
+    // Correctly escape the file path and build the HTML tag.
+    const quotedAttachmentPath = attachmentPath.replace(/"/g, '\\"');
+    highlight += `<br><img src=\\"file://${quotedAttachmentPath}\\">`;
+    console.log("Highlight with attachment:", highlight);
+  }
+
+  // Ensure the entire string is escaped for AppleScript.
+  return `${highlight} (Location <a href=\\"${url}\\">${location}</a>)<br><br><b>Note</b>: ${note}<br><b>Tags</b>: ${tags}<br>`;
 }
 
 const exportHighlights = async (params: ExportHighlightParameters) => {
@@ -71,7 +100,7 @@ async function writeToAppleNotes(bookHighlights: ReadwiseBookHighlights[]) {
     for (const highlight of highlights) {
       try {
         console.log("Writing highlight:", "\t" + highlight.text + "\n");
-        const appleScript = buildAppleScripts(book, highlight);
+        const appleScript = await buildAppleScripts(book, highlight);
         console.log(appleScript);
 
         try {
@@ -87,7 +116,7 @@ async function writeToAppleNotes(bookHighlights: ReadwiseBookHighlights[]) {
   }
 }
 
-function buildAppleScripts(
+async function buildAppleScripts(
   book: ReadwiseBookHighlights,
   highlight: ReadwiseHighlight,
 ) {
@@ -110,12 +139,21 @@ function buildAppleScripts(
   // Location is a number, but we need to convert it to a string unless it is undefined
   const cleanLocation = highlight.location ? highlight.location.toString() : "";
 
+  let attachmentPath = "";
+  if (highlight.text.includes("![]")) {
+    const urlMatch = highlight.text.match(/!\[\]\((.*?)\)/);
+    if (urlMatch && urlMatch[1]) {
+      attachmentPath = await downloadContent(urlMatch[1]);
+    }
+  }
+
   const highlightBody = generateHighlightTemplate(
     cleanHighlightStr,
     cleanLocation,
     cleanNoteStr,
     highlightTagsStr,
     highlight.url,
+    attachmentPath,
   );
 
   let appleScript = "";
@@ -148,6 +186,7 @@ function buildAppleScripts(
               end if
             end tell
           `;
+
   } else {
     appleScript = `
             tell application "Notes"
@@ -206,13 +245,14 @@ const runAppleScript = async (script: string) => {
 };
 
 // highlights updated in the 7 days
-const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+// const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
 interface ExportHighlightParameters {
   updatedAfter?: string; // Formatted as ISO 8601
   ids?: number[] | number | string; // Comma-separated list of book IDs
 }
 
-const params: ExportHighlightParameters = { updatedAfter: last7Days };
+// const params: ExportHighlightParameters = { updatedAfter: last7Days }
+const params: ExportHighlightParameters = { ids: [43077800] }
 
 syncHighlights(params);
