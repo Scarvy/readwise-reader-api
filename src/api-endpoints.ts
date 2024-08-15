@@ -173,7 +173,7 @@ export const exportHighlights = {
 export interface ExportHighlightParameters {
   updatedAfter?: string; // Formatted as ISO 8601
   ids?: number[] | number | string; // Comma-separated list of book IDs
-  pageCursor?: string
+  pageCursor?: string;
 }
 
 export interface ReadwiseHighlight {

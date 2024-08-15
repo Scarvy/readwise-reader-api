@@ -148,7 +148,6 @@ export default class Readwise {
     export: async (
       args?: ExportHighlightParameters,
     ): Promise<ReadwiseBookHighlights[]> => {
-
       let results: ReadwiseBookHighlights[] = [];
       let response: ExportHighlightsResponse;
 

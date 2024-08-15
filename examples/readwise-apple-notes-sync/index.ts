@@ -12,7 +12,7 @@ const readwise = new Readwise({ auth: process.env.READWISE_TOKEN });
 
 /**
  * Download content from a URL and save it to a temporary file.
- * 
+ *
  * @param url - The URL to download content from.
  * @returns The file path of the downloaded content.
  */
@@ -31,7 +31,7 @@ async function downloadContent(url: string) {
 
 /**
  * Generate a metadata template for a book.
- * 
+ *
  * @param author - The author of the book.
  * @param title - The title of the book.
  * @param category - The category of the book.
@@ -51,7 +51,7 @@ function generateMetaDataTemplate(
 
 /**
  * Generate a highlight template for a book.
- * 
+ *
  * @param highlight - The text of the highlight.
  * @param location - The location of the highlight.
  * @param note - The note associated with the highlight.
@@ -85,7 +85,7 @@ function generateHighlightTemplate(
 
 /**
  * Export highlights from Readwise and write them to Apple Notes.
- * 
+ *
  * @param params - Parameters for exporting highlights.
  * @returns - An array of ReadwiseBookHighlights objects.
  */
@@ -103,7 +103,7 @@ const exportHighlights = async (params: ExportHighlightParameters) => {
 
 /**
  * Sync highlights from Readwise to Apple Notes.
- * 
+ *
  * @param params - Parameters for exporting highlights.
  * @returns - An array of ReadwiseBookHighlights objects.
  */
@@ -134,7 +134,7 @@ const syncHighlights = async (params: ExportHighlightParameters) => {
 
 /**
  * Write highlights to Apple Notes.
- * 
+ *
  * @param bookHighlights - An array of ReadwiseBookHighlights objects.
  * @returns - A promise that resolves when all highlights have been written.
  */
@@ -163,7 +163,7 @@ async function writeToAppleNotes(bookHighlights: ReadwiseBookHighlights[]) {
 
 /**
  * Construct an AppleScript command to create a note in Apple Notes.
- * 
+ *
  * @param book - The book associated with the highlight.
  * @param highlight - The highlight to create a note for.
  * @returns - The AppleScript command as a string.
@@ -242,7 +242,7 @@ async function buildAppleScripts(
               end if
             end tell
           `;
-  // Otherwise, add the highlight as a regular note
+    // Otherwise, add the highlight as a regular note
   } else {
     appleScript = `
             tell application "Notes"
@@ -280,7 +280,7 @@ async function buildAppleScripts(
 
 /**
  * Helper function to escape text for AppleScript.
- * 
+ *
  * @param text - The text to escape.
  * @returns - The escaped text.
  */
@@ -295,7 +295,7 @@ function _escape_for_applescript(text: string | number | null | undefined) {
 
 /**
  * Execute an AppleScript command.
- * 
+ *
  * @param script - The AppleScript command to execute.
  * @returns - A promise that resolves when the AppleScript command has been executed.
  */
@@ -320,7 +320,7 @@ interface ExportHighlightParameters {
   ids?: number[] | number | string; // Comma-separated list of book IDs
 }
 
-const params: ExportHighlightParameters = { updatedAfter: last7Days }
+const params: ExportHighlightParameters = { updatedAfter: last7Days };
 // const params: ExportHighlightParameters = { ids: [43077800] }
 
 // Sync highlights from Readwise to Apple Notes

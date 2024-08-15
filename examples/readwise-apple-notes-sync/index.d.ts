@@ -1,1 +1,1 @@
-declare module 'applescript'
+declare module "applescript";
