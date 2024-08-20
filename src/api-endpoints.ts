@@ -179,14 +179,14 @@ export interface ExportHighlightParameters {
 export interface ReadwiseHighlight {
   id: number;
   text: string;
-  location: number;
+  location: number | null;
   location_type: string;
   note: string | null;
-  color: string;
+  color: string | null;
   highlighted_at: string;
   created_at: string;
   updated_at: string;
-  external_id: string;
+  external_id: string | null;
   end_location: number | null;
   url: string | null;
   book_id: number;
@@ -203,13 +203,13 @@ export interface ReadwiseBookHighlights {
   readable_title: string;
   source: string;
   cover_image_url: string;
-  unique_url: string;
+  unique_url: string | null;
   summary: string;
   book_tags: Tag[];
   category: string;
-  document_note: string;
+  document_note: string | null;
   readwise_url: string;
-  source_url: string;
+  source_url: string | null;
   asin: string | null;
   highlights: ReadwiseHighlight[];
 }
