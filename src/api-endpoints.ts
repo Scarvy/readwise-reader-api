@@ -204,7 +204,7 @@ export interface ReadwiseBookHighlights {
   source: string;
   cover_image_url: string;
   unique_url: string | null;
-  summary: string;
+  summary: string | null;
   book_tags: Tag[];
   category: string;
   document_note: string | null;
